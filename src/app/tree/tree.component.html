@@ -1,1 +1,25 @@
-<p>tree works!</p>
+<div class="tree">
+  <div class="__nodes" [class.vertical]="nodeType === NODE_TYPE.SINGLE">
+    <div class="__border" *ngIf="nodeType === NODE_TYPE.BRANCH"></div>
+    <div class="__node" *ngFor="let node of nodes">
+      <div class="__node_parent" *ngIf="node.type === NODE_TYPE.SINGLE">
+        <div class="__add __node_up popover__wrapper">
+          <img src="./assets/images/add_role_plus.svg" alt="">
+<!--          <div class="popover__content">-->
+<!--            <p class="popover__message">Joseph Francis "Joey" Tribbiani, Jr.</p>-->
+<!--            <img alt="Joseph Francis Joey Tribbiani, Jr." src="https://media.giphy.com/media/11SIBu3s72Co8w/giphy.gif">-->
+<!--          </div>-->
+        </div>
+        <div class="__node_content">
+          <img *ngIf="node?.rule?.type === ROLE_TYPE.SIGNER" src="./assets/images/signer.svg" alt="">
+          <img *ngIf="node?.rule?.type === ROLE_TYPE.APPROVER" src="./assets/images/approver.svg" alt="">
+          <span>{{node?.name}}</span>
+        </div>
+        <div class="__add __node_down"><img src="./assets/images/add_role_plus.svg" alt=""></div>
+      </div>
+      <ng-container *ngIf="node?.userNode && ((node?.userNode?.length ?? 0) > 0)">
+        <app-tree [nodes]="node?.userNode" [nodeType]="NODE_TYPE.BRANCH"></app-tree>
+      </ng-container>
+    </div>
+  </div>
+</div>
